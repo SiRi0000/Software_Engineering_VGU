@@ -23,7 +23,7 @@ public class TestMealOrderMgmt {
     }
 
     @Test
-    void testaddMealOrder(){
+    void testPositiveAddMealOrder(){
         assertEquals(0, mgmt.getOrderCount());
         mgmt.addMealOrder(mo1);
         assertEquals(1, mgmt.getOrderCount());
@@ -32,17 +32,37 @@ public class TestMealOrderMgmt {
     }
 
     @Test
-    void testUpdateMealOrder(){
+    void testNegativeAddMealOrder(){
+        assertEquals(0, mgmt.getOrderCount());
+        mgmt.addMealOrder(null);
+        assertEquals(0, mgmt.getOrderCount());
+    }
+
+    @Test
+    void testPositiveUpdateMealOrder(){
         mgmt.addMealOrder(mo1);
 
         mgmt.updateMealOrder(mo1.getOrderID(),OrderStatus.ORDERED);
         assertEquals(OrderStatus.ORDERED, mo1.getStatus());
+
+        mgmt.updateMealOrder(mo1.getOrderID(),OrderStatus.IN_KITCHEN);
+        assertEquals(OrderStatus.IN_KITCHEN, mo1.getStatus());
+
+        mgmt.updateMealOrder(mo1.getOrderID(),OrderStatus.DELIVERING);
+        assertEquals(OrderStatus.DELIVERING, mo1.getStatus());
+
+        mgmt.updateMealOrder(mo1.getOrderID(),OrderStatus.ARCHIVED);
+        assertEquals(OrderStatus.ARCHIVED, mo1.getStatus());
+
+        mgmt.updateMealOrder(mo1.getOrderID(),OrderStatus.INACTIVE);
+        assertEquals(OrderStatus.INACTIVE, mo1.getStatus());
     }
 
     @Test
-    void testCountOrderStatus(){
+    void testPositiveCountOrderStatus(){
         assertEquals(0, mgmt.countNumberOf(OrderStatus.ORDERED));
         assertEquals(0, mgmt.countNumberOf(OrderStatus.IN_KITCHEN));
+
         mgmt.addMealOrder(mo1);
         mgmt.updateMealOrder(mo1.getOrderID(),OrderStatus.IN_KITCHEN);
 
